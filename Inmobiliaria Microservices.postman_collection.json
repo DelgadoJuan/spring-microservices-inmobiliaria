@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "135ac8db-2211-4ae7-9bd6-31f5bf2f37fb",
+		"name": "Inmobiliaria Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17987580"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"kidd0j\",\r\n    \"username\": \"juan\",\r\n    \"password\": \"Pass123#\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"kidd0j\",\r\n    \"password\": \"Pass123#\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cambiar Rol",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWRkMGoiLCJyb2xlcyI6IlJPTEVfVVNFUiIsInVzZXJJZCI6MSwiZXhwIjoxNzMxNTEzOTc3fQ._4g6RYDFDHurNQWF6lp7QbSIEQcqPmiqog4et49iJYmnNmHWx7dJ4m6uYX3uE-QxGKoICZ-S1uD4vxa-mnFy1Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/user/updateRole/ADMIN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"user",
+						"updateRole",
+						"ADMIN"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear inmueble",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWRkMGoiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImV4cCI6MTczMTYwOTIwNn0.-vFFDW3_A-PSjbhsqVBoRjjApGW05gbpT7v7op87tyvuMt-peBh6KIVfcFLb-gyR2OoYYNQJEBMN_vLrCOnniA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Casa de Spreen\",\r\n    \"direccion\": \"Avenida Riestra\",\r\n    \"foto\": null,\r\n    \"precio\": 500000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/gateway/inmueble",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"gateway",
+						"inmueble"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los inmuebles",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/gateway/inmueble",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"gateway",
+						"inmueble"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar inmueble",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWRkMGoiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImV4cCI6MTczMTUxNDU2Nn0.o2q0RcoUZQy6TvRYl9hZzXH7wijx3LYhL8WA4zDRIiDv3iEu9xVI8VMJ9DQDi2h5BtnghXcVNIWmlmOPP6ZzxA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/gateway/inmueble/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"gateway",
+						"inmueble",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar compra",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWRkMGoiLCJyb2xlcyI6IlJPTEVfVVNFUiIsInVzZXJJZCI6MSwiZXhwIjoxNzMyNjM0ODI0fQ.Ik0dFgy1BR3SWsYe-brUSOwKSdaUuGPatguncyx0gkAWKJAH_5z8s_kVdgYYOK_amFE7oLFeMOPXBb6fsO9fmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"inmuebleId\": \"4\",\r\n    \"titulo\": \"Departamento A\",\r\n    \"precio\": \"40000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/gateway/compra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"gateway",
+						"compra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ver todas las compras de un usuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWRkMGoiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImV4cCI6MTczMTUxNzk5MH0.sBc2VRh0Rl3vAjHifNMYPOnXLRNjq3DfdVDb--Jl4wrZbLsBp3oodHePyGtKFs3oxdvhZCp3ngf8CUBPmGDG1g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/gateway/compra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"gateway",
+						"compra"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

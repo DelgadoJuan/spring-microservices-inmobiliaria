@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  config-server:
+    build:
+      context: ./spring-boot-microservice-5-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - spring_network
+
+  eureka-service:
+    build:
+      context: ./spring-boot-microservice-4-eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - spring_network
+
+  gateway-service:
+    build:
+      context: ./spring-boot-microservice-3-api-gateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - gateway-db
+      - eureka-service
+      - config-server
+    networks:
+      - spring_network
+    environment:
+      MYSQL_URL: jdbc:mysql://gateway-db:3306/db_gateway?userUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SECURE_KEY_USERNAME: ${SECURE_KEY_USERNAME}
+      SECURE_KEY_PASSWORD: ${SECURE_KEY_PASSWORD}
+      EUREKA_SERVER_URL: http://eureka-service:8761/eureka
+      CONFIG_SERVER_URL: http://config-server:8888
+
+  gateway-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: db_gateway
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - spring_network
+    volumes:
+      - gateway-db-data:/var/lib/mysql
+
+  inmueble-service:
+    build:
+      context: ./microservice-1-inmueble
+    ports:
+      - "8081:8081"
+    depends_on:
+      - inmueble-db
+      - eureka-service
+      - config-server
+    networks:
+      - spring_network
+    environment:
+      POSTGRES_URL: jdbc:postgresql://inmueble-db:5432/db_inmueble?currentSchema=sc_inmueble&useSSL=false
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECURE_KEY_USERNAME: ${SECURE_KEY_USERNAME}
+      SECURE_KEY_PASSWORD: ${SECURE_KEY_PASSWORD}
+      EUREKA_SERVER_URL: http://eureka-service:8761/eureka
+      CONFIG_SERVER_URL: http://config-server:8888
+
+  inmueble-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: db_inmueble
+    ports:
+      - "5432:5432"
+    networks:
+      - spring_network
+    volumes:
+      - inmueble-db-data:/var/lib/postgresql/data
+
+  compra-service:
+    build:
+      context: ./microservice-2-compra
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-service
+      - config-server
+    networks:
+      - spring_network
+    environment:
+      H2_URL: jdbc:h2:mem:db_compra
+      H2_USERNAME: ${H2_USERNAME}
+      H2_PASSWORD: ${H2_PASSWORD}
+      SECURE_KEY_USERNAME: ${SECURE_KEY_USERNAME}
+      SECURE_KEY_PASSWORD: ${SECURE_KEY_PASSWORD}
+      EUREKA_SERVER_URL: http://eureka-service:8761/eureka
+      CONFIG_SERVER_URL: http://config-server:8888
+
+networks:
+  spring_network:
+    driver: bridge
+
+volumes:
+  gateway-db-data:
+  inmueble-db-data:
